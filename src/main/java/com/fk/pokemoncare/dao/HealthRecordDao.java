@@ -15,4 +15,7 @@ public interface HealthRecordDao {
     void updateHealthRecord(HealthRecord healthRecord);
 
     void deleteHealthRecordById(int id);
+
+    public List<HealthRecord> getAllHealthRecordsByPokemonCenter(int pokemonCenterId);
 }
+

@@ -4,6 +4,7 @@ import com.fk.pokemoncare.entities.Pokemon;
 import com.fk.pokemoncare.entities.Trainer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
+//for a one to many relationship, keep the one simple. the many will handle it, in this case the pokemon.
 @Repository
 public class TrainerDaoDB implements TrainerDao {
     @Autowired
@@ -53,7 +54,12 @@ public class TrainerDaoDB implements TrainerDao {
 
     @Override
     public Trainer getTrainerById(int id) {
+        try{
         return jdbc.queryForObject(SELECT_TRAINER_BY_ID, new TrainerMapper(), id);
+        } catch (
+                DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -84,10 +90,6 @@ public class TrainerDaoDB implements TrainerDao {
 
         // Delete the Trainer record
         jdbc.update(DELETE_TRAINER, id);
-    }
-    @Override
-    public List<Pokemon> getPokemonListByTrainer(Trainer trainer) {
-        return jdbc.query(SELECT_POKEMONS_BY_TRAINER, new PokemonDaoDB.PokemonMapper(), trainer.getId());
     }
 
 }

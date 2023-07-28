@@ -5,6 +5,7 @@ import com.fk.pokemoncare.entities.Pokemon;
 import com.fk.pokemoncare.entities.Trainer;
 import com.fk.pokemoncare.entities.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -53,11 +54,16 @@ public class PokemonDaoDB implements PokemonDao {
     //set objects to pokemon using helpermethods
     @Override
     public Pokemon getPokemonById(int id) {
+        try {
         Pokemon pokemon = jdbc.queryForObject(SELECT_POKEMON_BY_ID, new PokemonMapper(), id);
         List<Type> types = getTypesForPokemon(pokemon); //helper
         pokemon.setTypes(types);
         pokemon.setTrainer(getTrainerForPokemon(id));//helper
         return pokemon;
+        } catch (
+                DataAccessException ex) {
+            return null;
+        }
     }
 
     //YOU NEEED THE LAST INSERTED ID BECAUSE ITS AUTO INCREMENTED and set it's id
@@ -115,13 +121,16 @@ public class PokemonDaoDB implements PokemonDao {
         return jdbc.queryForObject(SELECT_TRAINER_FOR_POKEMON, new TrainerDaoDB.TrainerMapper(), id);
 
     }
-    private void addPokemonToPokemonType(Pokemon pokemon) {
+    void addPokemonToPokemonType(Pokemon pokemon) {
         String insertPokemonTypeSql = "INSERT INTO pokemontype (PokemonID, TypeID) VALUES (?, ?)";
 
         for (Type type : pokemon.getTypes()) {
             jdbc.update(insertPokemonTypeSql, pokemon.getId(), type.getId());
         }
+
     }
+
+
     public static final class PokemonMapper implements RowMapper<Pokemon> {
 
         @Override

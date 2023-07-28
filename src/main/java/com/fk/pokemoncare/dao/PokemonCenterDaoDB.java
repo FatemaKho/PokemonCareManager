@@ -2,6 +2,7 @@ package com.fk.pokemoncare.dao;
 import com.fk.pokemoncare.entities.HealthRecord;
 import com.fk.pokemoncare.entities.PokemonCenter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -27,9 +28,14 @@ public class PokemonCenterDaoDB implements PokemonCenterDao {
 
     @Override
     public PokemonCenter getCenterById(int id) {
+        try {
         PokemonCenter center = jdbc.queryForObject(SELECT_CENTER_BY_ID, new PokemonCenterMapper(), id);
         center.setHealthrecords(getHealthRecordsByCenter(center));
         return center;
+        } catch (
+                DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -64,7 +70,12 @@ public class PokemonCenterDaoDB implements PokemonCenterDao {
     }
 
     private List<HealthRecord> getHealthRecordsByCenter(PokemonCenter center) {
-        return jdbc.query(SELECT_HEALTHRECORDS_BY_CENTER, new HealthRecordDaoDB.HealthRecordMapper(), center.getId());
+        List<HealthRecord> records= jdbc.query(SELECT_HEALTHRECORDS_BY_CENTER, new HealthRecordDaoDB.HealthRecordMapper(), center.getId());
+        if(records.size()==0)
+        {
+            return null;
+        }
+        return records;
     }
 
     public static final class PokemonCenterMapper implements RowMapper<PokemonCenter> {

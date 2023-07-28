@@ -26,7 +26,7 @@ public class TypeDaoDB implements TypeDao {
     final String GET_ALL_TYPES = "SELECT * FROM type";
     final String INSERT_TYPE = "INSERT INTO type (TypeName) VALUES(?)";
     final String GET_INSERT_ID = "SELECT LAST_INSERT_ID()";
-    final String UPDATE_TYPE = "UPDATE type SET TypeName = ?, WHERE TypeID = ?";
+    final String UPDATE_TYPE = "UPDATE type SET TypeName = ? WHERE TypeID = ?";
     final String DELETE_POKEMON_TYPE = "DELETE FROM pokemontype WHERE TypeID = ?";
     final String DELETE_TYPE = "DELETE FROM type WHERE TypeID = ?";
     final String GET_TYPES_BY_POKEMON = "SELECT t.* FROM type t INNER JOIN pokemontype pt ON " +
@@ -79,7 +79,7 @@ public class TypeDaoDB implements TypeDao {
     @Override
     public void updateType(Type type) {
         jdbc.update(UPDATE_TYPE,
-                type.getName());
+                type.getName(), type.getId());
     }
 
 

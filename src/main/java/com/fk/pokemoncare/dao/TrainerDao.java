@@ -15,6 +15,5 @@ public interface TrainerDao {
 
     void deleteTrainer(int id);
 
-    List<Pokemon> getPokemonListByTrainer(Trainer trainer);
 }
 

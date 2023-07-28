@@ -121,7 +121,19 @@ public class HealthRecordDaoDB implements HealthRecordDao {
         String sql = "DELETE FROM healthrecord";
         jdbc.update(sql);
     }
-
+    public List<HealthRecord> getAllHealthRecordsByPokemonCenter(int pokemonCenterId) {
+        try {
+            String sql = "SELECT * FROM healthrecord WHERE PokemonCenterID = ?";
+            List<HealthRecord> healthRecords = jdbc.query(sql, new HealthRecordMapper(), pokemonCenterId);
+            for (HealthRecord healthRecord : healthRecords) {
+                setRelatedObjects(healthRecord);
+            }
+            return healthRecords;
+        } catch (DataAccessException ex) {
+            // Handle the exception or rethrow it
+            return null;
+        }
+    }
     public static final class HealthRecordMapper implements RowMapper<HealthRecord> {
         @Override
         public HealthRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
