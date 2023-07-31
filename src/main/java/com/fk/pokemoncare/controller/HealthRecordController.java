@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -122,9 +123,19 @@ public class HealthRecordController {
                                   @RequestParam("pokemonID") int pokemonId,
                                   @RequestParam("pokemonCenterID") int pokemonCenterId,
                                   @RequestParam("date") String dateTimeString,
+                                  @RequestParam("description") String description,
                                   Model model) {
 
         // Validate the input date and time format
+        if("".equals(description)) {
+            FieldError error = new FieldError("healthRecord", "description", "Health Record needs description");
+
+            result.addError(error);
+        }
+
+        else {
+            healthRecord.setDescription(description);
+        }
           try {
               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a", Locale.US);
               LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
@@ -135,6 +146,12 @@ public class HealthRecordController {
               return "addHealthRecord";
           }
 
+
+if(result.hasErrors() && result.getErrorCount()>1) {
+    model.addAttribute("pokemons", service.getAllPokemon());
+    model.addAttribute("pokemonCenter", service.getAllCenters());
+    return "addHealthRecord";
+}
         // Fetch the Pokemon and PokemonCenter objects from the ServiceInterface
         Pokemon pokemon = service.getPokemonById(pokemonId);
         PokemonCenter pokemonCenter = service.getCenterById(pokemonCenterId);

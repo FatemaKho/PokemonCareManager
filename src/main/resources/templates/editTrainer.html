@@ -64,7 +64,7 @@
         <div class="form-group row">
           <label for="email" class="col-5 col-form-label text-right font-weight-bold">Email:</label>
           <div class="col-7">
-            <input type="text" name="email" id="email" class="form-control" th:value="${trainer.email}" />
+            <input type="text" name="email" id="email" class="form-control" th:value="${trainer.email}" required/>
             <div th:if="${#fields.hasErrors('trainer.email')}">
               <p th:each="error : ${#fields.errors('trainer.email')}" class="alert alert-danger" th:text="${error}"></p>
             </div>
@@ -73,7 +73,7 @@
         <div class="form-group row">
         <label for="pokemons" class="col-5 col-form-label text-right font-weight-bold">Pokemons:</label>
         <div class="col-7">
-          <select id="pokemons" name="pokemons" class="form-control" multiple="multiple">
+          <select id="pokemons" name="pokemons" class="form-control" multiple="multiple" required>
             <option th:each="pokemon : ${pokemons}"
                     th:value="${pokemon.id}"
                     th:text="${pokemon.name}"

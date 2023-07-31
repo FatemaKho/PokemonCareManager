@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <!-- Required meta tags -->
@@ -35,19 +35,19 @@
         <div class="form-group row">
           <label for="age" class="col-5 col-form-label text-right font-weight-bold">Age:</label>
           <div class="col-7">
-            <input type="text" name="age" id="age" class="form-control" />
+            <input type="text" name="age" id="age" class="form-control" required/>
           </div>
         </div>
         <div class="form-group row">
           <label for="email" class="col-5 col-form-label text-right font-weight-bold">Email:</label>
           <div class="col-7">
-            <input type="text" name="email" id="email" class="form-control" />
+            <input type="text" name="email" id="email" class="form-control" required/>
           </div>
         </div>
         <div class="form-group row">
           <label for="pokemons" class="col-5 col-form-label text-right font-weight-bold">Pokemons:</label>
           <div class="col-7">
-            <select multiple id="pokemons" name="pokemons" class="form-control" >
+            <select multiple id="pokemons" name="pokemons" class="form-control" required >
               <option th:each="pokemon : ${pokemons}"
                       th:value="${pokemon.id}"
                       th:text="${pokemon.name}">

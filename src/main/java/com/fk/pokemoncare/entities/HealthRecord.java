@@ -19,11 +19,8 @@ public class HealthRecord {
     @NotBlank(message = "Description must not be empty")
     private String description;
 
-   @NotBlank (message = "Date must not be empty")
     private LocalDateTime date;
-  @NotBlank (message = "Pokemon must not be empty")
     private Pokemon pokemon;
-    @NotBlank (message = "Center must not be empty")
     private PokemonCenter pokemonCenter;
 
 

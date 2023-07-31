@@ -25,17 +25,20 @@
     </div>
     <!-- Add Pokemon -->
     <div class="col text-center m-3">
-      <form id="pokemonForm" action="/addPokemon" method="POST">
+      <form id="pokemonForm" action="/addPokemon" method="POST" th:object="${pokemon}">
         <div class="form-group row">
           <label for="name" class="col-5 col-form-label text-right font-weight-bold">Name:</label>
           <div class="col-7">
             <input type="text" name="name" id="name" class="form-control" />
+            <div th:if="${#fields.hasErrors('name')}" class="alert alert-danger">
+              <p th:each="error : ${#fields.errors('name')}" th:text="${error}"></p>
+            </div>
           </div>
         </div>
         <div class="form-group row">
           <label for="type" class="col-5 col-form-label text-right font-weight-bold">Type:</label>
           <div class="col-7">
-            <select multiple id="type" name="types" class="form-control">
+            <select multiple id="type" name="types" class="form-control" required>
               <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
             </select>
           </div>
@@ -43,13 +46,17 @@
         <div class="form-group row">
           <label for="level" class="col-5 col-form-label text-right font-weight-bold">Level:</label>
           <div class="col-7">
-            <input type="text" name="level" id="level" class="form-control" />
+            <input type="number" name="level" id="level" class="form-control" />
+
           </div>
         </div>
         <div class="form-group row">
           <label for="species" class="col-5 col-form-label text-right font-weight-bold">Species:</label>
           <div class="col-7">
             <input type="text" name="species" id="species" class="form-control" />
+            <div th:if="${#fields.hasErrors('species')}" class="alert alert-danger">
+              <p th:each="error : ${#fields.errors('species')}" th:text="${error}"></p>
+            </div>
           </div>
         </div>
         <div class="form-group row">

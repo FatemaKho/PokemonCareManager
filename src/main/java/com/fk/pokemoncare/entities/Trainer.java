@@ -9,7 +9,6 @@ public class Trainer {
 
     @NotBlank(message = "Name must not be empty")
     private String name;
-    @NotBlank(message = "Age must not be empty")
     private int age;
     @NotBlank(message = "Email must not be empty")
     private String email;

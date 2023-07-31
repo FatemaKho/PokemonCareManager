@@ -10,7 +10,6 @@ public class PokemonCenter {
     private String name;
    @NotBlank(message = "Address not be empty")
     private String address;
-   @NotBlank(message = "Must not be empty")
     private List<HealthRecord> healthrecords;
 
     public PokemonCenter() {

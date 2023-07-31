@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -41,17 +43,30 @@ public class PokemonCenterController {
     @PostMapping("/addPokemonCenter")
     public String addPokemonCenter(@ModelAttribute("pokemonCenter") @Valid PokemonCenter pokemonCenter,
                                    BindingResult result,
-                                   Model model) {
-        if (result.hasErrors()) {
-            return "addPokemonCenter";
+                                   Model model, HttpServletRequest request) {
+
+        if("".equals(pokemonCenter.getName())) {
+            FieldError error = new FieldError("pokemonCenter", "name", "Pokemon Center needs name");
+            result.addError(error);
+        }
+        if("".equals(pokemonCenter.getAddress())){
+            FieldError error = new FieldError("pokemonCenter", "address", "Pokemon Center needs address");
+            result.addError(error);
         }
 
         try {
-            service.addCenter(pokemonCenter);
+           if(!result.hasErrors()) {
+               service.addCenter(pokemonCenter);
+           }
         } catch (DuplicateNameExistsException e) {
             model.addAttribute("error", e.getMessage());
             return "addPokemonCenter";
         }
+
+        if (result.hasErrors()) {
+            return "addPokemonCenter";
+        }
+
 
         return "redirect:/pokemonCenters";
     }

@@ -47,7 +47,7 @@
         <div class="form-group row">
           <label for="name" class="col-5 col-form-label text-right font-weight-bold">Name</label>
           <div class="col-7">
-            <input type="text" name="name" id="name" class="form-control" th:value="${pokemonCenter.name}"/>
+            <input type="text" name="name" id="name" class="form-control" th:value="${pokemonCenter.name}" required/>
             <div th:if="${#fields.hasErrors('pokemonCenter.name')}">
               <p th:each="error : ${#fields.errors('pokemonCenter.name')}" class="alert alert-danger" th:text="${error}">
               </p>
@@ -57,7 +57,7 @@
         <div class="form-group row">
           <label for="address" class="col-5 col-form-label text-right font-weight-bold">Address:</label>
           <div class="col-7">
-            <input type="text" name="address" id="address" class="form-control" th:value="${pokemonCenter.address}"/>
+            <input type="text" name="address" id="address" class="form-control" th:value="${pokemonCenter.address}" required/>
             <div th:if="${#fields.hasErrors('pokemonCenter.address')}">
               <p th:each="error : ${#fields.errors('pokemonCenter.address')}" class="alert alert-danger" th:text="${error}">
               </p>

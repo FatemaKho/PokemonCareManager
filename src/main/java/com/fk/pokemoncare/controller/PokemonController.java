@@ -14,6 +14,7 @@ import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,14 +46,13 @@ public class PokemonController {
     }
 
     @PostMapping("/addPokemon")
-    public String addPokemon(@ModelAttribute("pokemon") @Valid Pokemon pokemon,
+    public String addPokemon(@ModelAttribute("pokemon") @Valid Pokemon pokemon, BindingResult result,
                              @RequestParam("types") List<Integer> selectedTypeIds,
                              @RequestParam("trainers") int selectedTrainerId,
-                             Model model) throws DuplicateNameExistsException {
+                             Model model)  {
         List<Type> selectedTypes = selectedTypeIds.stream()
                 .map(typeId -> service.getTypeByID(typeId))
                 .collect(Collectors.toList());
-
         pokemon.setTypes(selectedTypes);
 
         // Fetch the Trainer object based on the Trainer ID
@@ -61,9 +61,26 @@ public class PokemonController {
         // Set the Trainer object in the Pokemon
         pokemon.setTrainer(trainer);
 
-        Pokemon addedPokemon = service.addPokemon(pokemon);
-        model.addAttribute("pokemon", addedPokemon);
+        if ("".equals(pokemon.getName())) {
+            FieldError error = new FieldError("pokemon", "name", "Name cannot be blank.");
+            result.addError(error);
+        }
+
+        if ("".equals(pokemon.getSpecies())) {
+            FieldError error = new FieldError("pokemon", "species", "Species cannot be blank.");
+            result.addError(error);
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("types", service.getAllTypes());
+            model.addAttribute("trainers", service.getAllTrainers());
+            return "addPokemon";
+        }
+
+        service.addPokemon(pokemon);
+
         return "redirect:/pokemons";
+
     }
 
     @GetMapping("/detailPokemon")

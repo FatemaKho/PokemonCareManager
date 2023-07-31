@@ -11,11 +11,9 @@ public class Pokemon {
     private String name;
     @NotBlank(message = "Species must not be empty")
     private String species;
-   @NotBlank(message = "Level must not be empty")
     private int level;
     private Trainer trainer;
-  @NotBlank(message = "Level must not be empty")
-   @NotNull(message="Cant be null")
+
     private List<Type> types;
 
     public Pokemon() {

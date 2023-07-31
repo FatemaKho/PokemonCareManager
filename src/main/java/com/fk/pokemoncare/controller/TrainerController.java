@@ -107,7 +107,7 @@ public class TrainerController {
         service.updateTrainer(trainer);
         return "redirect:/trainers";
     }
-    @GetMapping("/deleteTrainer")
+    @PostMapping("/deleteTrainer")
     public String deleteTrainer(HttpServletRequest request, @RequestParam("id") int id) {
         service.deleteTrainer(id);
         return "redirect:/trainers";

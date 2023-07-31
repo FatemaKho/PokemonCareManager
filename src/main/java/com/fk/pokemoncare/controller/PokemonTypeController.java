@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,16 +59,23 @@ public class PokemonTypeController {
     public String addPokemonType(@ModelAttribute("pokemonType") @Valid Type pokemonType,
                                  BindingResult result,
                                  Model model) {
+        if ("".equals(pokemonType.getName())) {
+            result.rejectValue("name", "blank", "Name cannot be blank.");
+        }
+
         try {
             service.validateType(pokemonType);
         } catch (DuplicateNameExistsException e) {
-            model.addAttribute("error", e.getMessage());
+            result.rejectValue("name", "duplicate", e.getMessage());
             return "addPokemonType";
         }
-
+        if (result.hasErrors()) {
+            return "addPokemonType";
+        }
         service.addType(pokemonType);
         return "redirect:/pokemonTypes";
     }
+
 
     // Edit a Pokemon type - Show the form
     @GetMapping("/editPokemonType")
@@ -77,17 +85,25 @@ public class PokemonTypeController {
         return "editPokemonType";
     }
 
+
     // Edit a Pokemon type - Process the form submission
     @PostMapping("/editPokemonType")
     public String editPokemonType(@ModelAttribute("pokemonType") @Valid Type pokemonType,
                                   BindingResult result,
-                                  Model model) throws DuplicateNameExistsException {
+                                  Model model)  {
+        if ("".equals(pokemonType.getName())) {
+            result.rejectValue("name", "blank", "Name cannot be blank.");
+        }
         try {
             service.validateType(pokemonType);
         } catch (DuplicateNameExistsException e) {
-            throw new RuntimeException(e);
-        }
+            result.rejectValue("name", "duplicate", e.getMessage());
+            return "editPokemonType";
 
+        }
+        if (result.hasErrors()) {
+            return "editPokemonType";
+        }
         service.updateType(pokemonType);
         return "redirect:/pokemonTypes";
     }

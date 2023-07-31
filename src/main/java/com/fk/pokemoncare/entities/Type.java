@@ -1,10 +1,12 @@
 package com.fk.pokemoncare.entities;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Objects;
 
 public class Type {
     private int id;
+    @NotBlank(message = "Enter Name")
     private String name;
     private List<Pokemon> pokemons;
 

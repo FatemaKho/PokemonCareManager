@@ -44,11 +44,20 @@ public class PokemonDaoDB implements PokemonDao {
     @Override
     public List<Pokemon> getAllPokemon() {
         List<Pokemon> pokemons= jdbc.query(SELECT_ALL_POKEMON, new PokemonMapper());
-        for(Pokemon pokemon: pokemons) {
-            pokemon.setTypes(getTypesForPokemon(pokemon));
-            pokemon.setTrainer(getTrainerForPokemon(pokemon.getId()));
+        if(pokemons!=null) {
+            for (Pokemon pokemon : pokemons) {
+                pokemon.setTypes(getTypesForPokemon(pokemon));
+                if(getTrainerForPokemon(pokemon.getId())!=null) {
+                    pokemon.setTrainer(getTrainerForPokemon(pokemon.getId()));//helper
+                } else {
+                    pokemon.setTrainer(null);
+                }
+                pokemon.setTrainer(getTrainerForPokemon(pokemon.getId()));
+            }
+
+            return pokemons;
         }
-        return pokemons;
+        return null;
     }
 
     //set objects to pokemon using helpermethods
@@ -58,7 +67,11 @@ public class PokemonDaoDB implements PokemonDao {
         Pokemon pokemon = jdbc.queryForObject(SELECT_POKEMON_BY_ID, new PokemonMapper(), id);
         List<Type> types = getTypesForPokemon(pokemon); //helper
         pokemon.setTypes(types);
-        pokemon.setTrainer(getTrainerForPokemon(id));//helper
+        if(getTrainerForPokemon(id)!=null) {
+            pokemon.setTrainer(getTrainerForPokemon(id));//helper
+        } else {
+            pokemon.setTrainer(null);
+        }
         return pokemon;
         } catch (
                 DataAccessException ex) {
@@ -118,8 +131,12 @@ public class PokemonDaoDB implements PokemonDao {
     }
 
     private Trainer getTrainerForPokemon(int id) {
+        try {
         return jdbc.queryForObject(SELECT_TRAINER_FOR_POKEMON, new TrainerDaoDB.TrainerMapper(), id);
-
+        } catch (
+                DataAccessException ex) {
+            return null;
+        }
     }
     void addPokemonToPokemonType(Pokemon pokemon) {
         String insertPokemonTypeSql = "INSERT INTO pokemontype (PokemonID, TypeID) VALUES (?, ?)";

@@ -49,7 +49,7 @@
         <div class="form-group row">
           <label for="pokemons" class="col-5 col-form-label text-right font-weight-bold">Pokemon:</label>
           <div class="col-7">
-            <select id="pokemons" name="pokemonID" class="form-control">
+            <select id="pokemons" name="pokemonID" class="form-control" required>
               <option disabled selected value> -- Select Hero/Villian -- </option>
               <option th:each="pokemon : ${pokemons}"
                       th:value="${pokemon.id}"
@@ -64,9 +64,9 @@
           </div>
         </div>
         <div class="form-group row">
-          <label for="pokemonCenters" class="col-5 col-form-label text-right font-weight-bold">Location:</label>
+          <label for="pokemonCenters" class="col-5 col-form-label text-right font-weight-bold">Pokemon Center:</label>
           <div class="col-7">
-            <select id="pokemonCenters" name="pokemonCenterID" class="form-control">
+            <select id="pokemonCenters" name="pokemonCenterID" class="form-control" required>
               <option disabled selected value> -- Select Pokemon centers -- </option>
               <option th:each="pokemonCenter : ${pokemonCenters}"
                       th:value="${pokemonCenter.id}"
@@ -83,7 +83,7 @@
         <div class="form-group row">
           <label for="description" class="col-5 col-form-label text-right font-weight-bold">Description:</label>
           <div class="col-7">
-            <input type="text" name="description" id="description" class="form-control" th:value="${healthRecord.description}"/>
+            <input type="text" name="description" id="description" class="form-control" th:value="${healthRecord.description}" required/>
             <div th:if="${#fields.hasErrors('healthRecord.description')}">
               <p th:each="error : ${#fields.errors('healthRecord.description')}" class="alert alert-danger" th:text="${error}">
               </p>

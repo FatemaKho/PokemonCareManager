@@ -37,7 +37,7 @@
                 <div class="form-group row">
                     <label for="type" class="col-5 col-form-label text-right font-weight-bold">Type:</label>
                     <div class="col-7">
-                        <select multiple id="type" name="types" class="form-control">
+                        <select multiple id="type" name="types" class="form-control" required>
                             <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}" th:selected="${pokemon.types.contains(type)}"></option>
                         </select>
                     </div>
@@ -51,13 +51,13 @@
                 <div class="form-group row">
                     <label for="species" class="col-5 col-form-label text-right font-weight-bold">Species:</label>
                     <div class="col-7">
-                        <input type="text" name="species" id="species" class="form-control" th:value="${pokemon.species}" />
+                        <input type="text" name="species" id="species" class="form-control" th:value="${pokemon.species}" required/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="trainer" class="col-5 col-form-label text-right font-weight-bold">Trainer:</label>
                     <div class="col-7">
-                        <select id="trainer" name="trainers" class="form-control">
+                        <select id="trainer" name="trainers" class="form-control" required>
                             <option th:each="trainer : ${trainers}"
                                     th:value="${trainer.id}"
                                     th:text="${trainer.name}"

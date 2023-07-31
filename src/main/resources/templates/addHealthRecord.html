@@ -46,7 +46,7 @@
         <div class="form-group row">
           <label for="pokemonCenters" class="col-5 col-form-label text-right font-weight-bold">Pokemon Center:</label>
           <div class="col-7">
-            <select id="pokemonCenters" name="pokemonCenterID" class="form-control">
+            <select id="pokemonCenters" name="pokemonCenterID" class="form-control" required>
               <option disabled selected value> -- Select Pokemon Center -- </option>
               <option th:each="pokemonCenter : ${pokemonCenters}"
                       th:value="${pokemonCenter.id}"
@@ -63,7 +63,7 @@
         <div class="form-group row">
           <label for="pokemons" class="col-5 col-form-label text-right font-weight-bold">Pokemon:</label>
           <div class="col-7">
-            <select id="pokemons" name="pokemonID" class="form-control">
+            <select id="pokemons" name="pokemonID" class="form-control" required>
               <option disabled selected value> -- Select Pokemon -- </option>
               <option th:each="pokemon : ${pokemons}"
                       th:value="${pokemon.id}"
@@ -76,7 +76,9 @@
               </p>
             </div>
           </div>
+
         </div>
+
         <div class="form-group row">
           <label for="description" class="col-5 col-form-label text-right font-weight-bold">Description:</label>
           <div class="col-7">
@@ -86,15 +88,16 @@
               </p>
             </div>
           </div>
-        </div>
+          <!-- Display the validation error message if it exists -->
+
         <div class="form-group row">
-          <label for="date" class="col-5 col-form-label text-right font-weight-bold">Sighting Date & Time:</label>
+          <label for="date" class="col-5 col-form-label text-right font-weight-bold"> Date & Time:</label>
           <div class="col-7">
             <input type="text" name="date" id="date" class="form-control" th:value="${#temporals.format(date, 'MM/dd/yyyy hh:mm a')}" placeholder="07/20/2023 10:10 AM"/>
-            <div th:if="${#fields.hasErrors('date')}">
-              <p th:each="error : ${#fields.errors('date')}" class="alert alert-danger" th:text="${error}">
-              </p>
-            </div>
+<!--            <div th:if="${#fields.hasErrors('date')}">-->
+<!--              <p th:each="error : ${#fields.errors('date')}" class="alert alert-danger" th:text="${error}">-->
+<!--              </p>-->
+<!--            </div>-->
           </div>
         </div>
 
