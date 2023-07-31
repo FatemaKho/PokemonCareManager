@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/sketchy/bootstrap.min.css">
+    <!-- Bootstrap CSS
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+-->
+    <style>
+ .tbody {
+    background-color: yellow;
+  }
+
+
+</style>
+    <title>Super Hero Sightings</title>
+
+</head>
+<body>
+
+<!-- Main Body of Page -->
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center">
+            <a href="/" class="h3">Pokemon Care Organization</a>
+        </div>
+    </div>
+
+    <div class="row m-4 border border-primary">
+        <div class="col text-center m-3">
+            <a href="pokemons" class="btn btn-outline-primary">Pokemon</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="trainers" class="btn btn-outline-primary">Trainers</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="pokemonTypes" class="btn btn-outline-primary">Pokemon Types</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="pokemonCenters" class="btn btn-outline-primary">Pokemon Center</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="healthRecords" class="btn btn-outline-primary">Health Records</a>
+        </div>
+    </div>
+
+    <div class="row m-4 border border-primary  text-center">
+        <span class="col h6 m-3">Welcome to Pokemon Care.  Here you can manage pokemon care!</span>
+    </div>
+
+    <div class="row m-4 border border-primary">
+        <div class="col text-center m-3">
+            <div class="col-12 text-center m-3">
+                <span class="h3">Latest Health Records</span>
+            </div>
+            <table class="table table-sm text-left">
+                <thead>
+                <tr>
+                    <th width="20%">ID</th>
+                    <th width="20%">Pokemon Center</th>
+                    <th width="20%">Pokemon</th>
+                    <th width="25%">Type</th>
+                    <th width="25%">Description</th>
+                    <th width="20%">Trainer </th>
+                    <th width="20%">Date & Time</th>
+                    <th width="20%">Details</th>
+                </tr>
+                </thead>
+                <tbody class="h6 small">
+                <tr th:each="healthRecord : ${healthRecords}">
+                    <td th:text="${healthRecord.id}"></td>
+                    <td th:text="${healthRecord.pokemonCenter.name}"></td>
+                    <td th:text="${healthRecord.pokemon.name}"></td>
+                    <td>
+                        <span th:each="type : ${healthRecord.pokemon.types}">
+                            <span th:text="${type.name}"></span>
+                     <!-- Add a comma after each type except for the last one -->
+                         <span th:unless="${typeStat.last}">, </span>
+                         </span>
+                    <td th:text="${healthRecord.description}"></td>
+                    <td th:text="${healthRecord.pokemon.trainer.name}">
+                    <td th:text="${#temporals.format(healthRecord.date, 'MM/dd/yyyy hh:mm a')}"></td>
+                    <td><a href="#" th:href="@{/detailHealthRecord(id=${healthRecord.id})}">Details</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<!-- End main body -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

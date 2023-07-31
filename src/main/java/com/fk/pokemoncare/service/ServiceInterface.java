@@ -2,7 +2,11 @@ package com.fk.pokemoncare.service;
 
 import com.fk.pokemoncare.entities.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+
+
 
 public interface ServiceInterface {
 
@@ -17,7 +21,11 @@ public interface ServiceInterface {
     void deleteHealthRecordById(int id);
 
     List<HealthRecord> getAllHealthRecordsByPokemonCenter(int pokemonCenterId);
-//POKEMON CENTER
+
+
+    List<HealthRecord> getHealthRecordsByDate(LocalDateTime date);
+
+    //POKEMON CENTER
     PokemonCenter getCenterById(int id);
 
     List<PokemonCenter> getAllCenters();
@@ -54,6 +62,7 @@ public interface ServiceInterface {
     void updateTrainer(Trainer trainer);
 
     void deleteTrainer(int id);
+    public void validateTrainer(Trainer trainer) throws DuplicateEmailExistsException;
 
 //TYPESd
     Type getTypeByID (int id);
@@ -61,6 +70,7 @@ public interface ServiceInterface {
     Type addType(Type type);
     void updateType(Type type);
     void deleteTypeByID(int id);
+    void validateType(Type pokemonType) throws DuplicateNameExistsException;
 
     List<Type> getTypeByPokemon(Pokemon pokemon);
 }

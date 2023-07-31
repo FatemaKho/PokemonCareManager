@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/sketchy/bootstrap.min.css">
+
+    <title>Pokemon Care Organization</title>
+</head>
+<body>
+<!-- Main Body of Page -->
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center">
+            <a href="/" class="h3">Pokemon Care Organization</a>
+        </div>
+    </div>
+
+    <div class="row m-4 border border-primary">
+        <div class="col text-center m-3">
+            <a href="pokemons" class="btn btn-outline-primary">Pokemon</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="trainers" class="btn btn-outline-primary">Trainers</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="pokemonTypes" class="btn btn-outline-primary">Pokemon Types</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="pokemonCenters" class="btn btn-outline-primary">Pokemon Center</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="healthRecords" class="btn btn-outline-primary">Health Records</a>
+        </div>
+    </div>
+
+    <div class="row m-4 border border-primary">
+        <div class="col text-center m-3">
+            <div class="col-12 text-center m-3">
+                <span class="h3">Pokemon</span>
+            </div>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th style="width: 15%;" class="text-left">Name</th>
+                    <th style="width: 15%;" class="text-left">Type</th>
+                    <th style="width: 15%;" class="text-left">Level</th>
+                    <th style="width: 15%;" class="text-left">Species</th>
+                    <th style="width: 15%;" class="text-left">Trainer</th>
+                    <th style="width: 10%;" class="text-center">Details</th>
+                    <th style="width: 10%;" class="text-center">Edit</th>
+                    <th style="width: 10%;" class="text-center">Delete</th>
+                </tr>
+                </thead>
+                <tbody class="h6 small">
+                <tr th:each="pokemon : ${pokemons}">
+                    <td class="text-left" th:text="${pokemon.name}"></td>
+                    <td class="text-left">
+                        <span th:each="type, iterStat : ${pokemon.types}">
+                            <span th:text="${type.name}"></span>
+                            <span th:if="${!iterStat.last}">, </span>
+                        </span>
+                    </td>
+                    <td class="text-left" th:text="${pokemon.level}"></td>
+                    <td class="text-left" th:text="${pokemon.species}"></td>
+                    <td class="text-left" th:text="${pokemon.trainer.name}"></td>
+                    <td class="text-center">
+                        <a href="#" th:href="@{/detailPokemon(id=${pokemon.id})}">Details</a>
+                    </td>
+                    <td class="text-center">
+                        <a href="#" th:href="@{/editPokemon(id=${pokemon.id})}">Edit</a>
+                    </td>
+                    <td class="text-center">
+                        <a href="#" th:attr="href=${'#deleteModal' + pokemon.id}" data-toggle="modal">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="addPokemon" class="btn btn-outline-primary">Add Pokemon</a>
+        </div>
+    </div>
+
+    <!-- Display the validation error message if it exists -->
+    <div class="row m-4 border border-danger">
+        <div class="col text-center m-2">
+            <p th:if="${error}" class="text-danger" style="font-weight: bold;">
+                Error: <span th:text="${error}"></span>
+            </p>
+        </div>
+    </div>
+
+</div>
+<!-- End main body -->
+
+<!-- Delete Modal Confirmation -->
+<div class="modal" th:each="pokemon : ${pokemons}" th:attr="id=${'deleteModal' + pokemon.id}" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Do you want to delete this Pokemon?</h4>
+                <h5><span th:text="${pokemon.name}"></span></h5>
+            </div>
+            <div class="modal-footer">
+                <form type="form" action="deletePokemon" method="POST">
+                    <input type="hidden" name="id" th:value="${pokemon.id}"/>
+                    <button type="submit" class="btn btn-outline-primary">OK</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Delete Modal -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
+

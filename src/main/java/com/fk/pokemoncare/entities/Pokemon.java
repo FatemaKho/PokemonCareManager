@@ -1,14 +1,21 @@
 package com.fk.pokemoncare.entities;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
 public class Pokemon {
     private int id;
+   @NotBlank(message = "Name must not be empty")
     private String name;
+    @NotBlank(message = "Species must not be empty")
     private String species;
+   @NotBlank(message = "Level must not be empty")
     private int level;
     private Trainer trainer;
+  @NotBlank(message = "Level must not be empty")
+   @NotNull(message="Cant be null")
     private List<Type> types;
 
     public Pokemon() {

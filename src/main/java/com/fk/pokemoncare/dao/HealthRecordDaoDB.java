@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -133,6 +135,16 @@ public class HealthRecordDaoDB implements HealthRecordDao {
             // Handle the exception or rethrow it
             return null;
         }
+
+    }
+    @Override
+    public List<HealthRecord> getHealthRecordsByDate(LocalDateTime date) {
+        String sql = "SELECT * FROM healthrecord WHERE DATE(HealthDateRecorded) = ?";
+        List<HealthRecord> healthRecords = jdbc.query(sql, new HealthRecordMapper(), date);
+        for (HealthRecord healthRecord : healthRecords) {
+            setRelatedObjects(healthRecord);
+        }
+        return healthRecords;
     }
     public static final class HealthRecordMapper implements RowMapper<HealthRecord> {
         @Override

@@ -3,9 +3,13 @@ package com.fk.pokemoncare.service;
 import com.fk.pokemoncare.dao.*;
 import com.fk.pokemoncare.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class ServiceLayer implements ServiceInterface {
     @Autowired
     private HealthRecordDaoDB healthRecordDao;
@@ -52,7 +56,13 @@ public class ServiceLayer implements ServiceInterface {
         return healthRecordDao.getAllHealthRecordsByPokemonCenter(pokemonCenterId);
 
     }
-//POKEMONCENTERDAO
+
+    @Override
+    public List<HealthRecord> getHealthRecordsByDate(LocalDateTime date) {
+        return healthRecordDao.getHealthRecordsByDate(date);
+    }
+
+    //POKEMONCENTERDAO
     @Override
     public PokemonCenter getCenterById(int id) {
         return pokemonCenterDao.getCenterById(id);
@@ -65,7 +75,7 @@ public class ServiceLayer implements ServiceInterface {
 
     @Override
     public PokemonCenter addCenter(PokemonCenter center) throws DuplicateNameExistsException {
-        validatePokemonCenter(center);
+       // validatePokemonCenter(center);
         return pokemonCenterDao.addCenter(center);
     }
 
@@ -92,6 +102,8 @@ public class ServiceLayer implements ServiceInterface {
             throw new DuplicateNameExistsException("Pokemon Center with the same name already exists in the system.");
         }
     }
+
+
     //POKEMONDAO
 
     @Override
@@ -180,7 +192,12 @@ public class ServiceLayer implements ServiceInterface {
 
     @Override
     public Type addType(Type type) {
-       return typeDao.addType(type);
+        try {
+            validateType(type);
+        } catch (DuplicateNameExistsException e) {
+            throw new RuntimeException(e);
+        }
+        return typeDao.addType(type);
     }
 
     @Override

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/sketchy/bootstrap.min.css">
+
+  <title>Add Pokemon</title>
+</head>
+<body>
+<!-- Main Body of Page -->
+<div class="container">
+  <div class="row m-4">
+    <div class="col text-center">
+      <a href="/" class="h3">Pokemon Care Organization</a>
+    </div>
+  </div>
+
+  <div class="row m-4 border border-primary">
+    <div class="col-12 text-center m-3">
+      <span class="h3">Add Pokemon</span>
+    </div>
+    <!-- Add Pokemon -->
+    <div class="col text-center m-3">
+      <form id="pokemonForm" action="/addPokemon" method="POST">
+        <div class="form-group row">
+          <label for="name" class="col-5 col-form-label text-right font-weight-bold">Name:</label>
+          <div class="col-7">
+            <input type="text" name="name" id="name" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="type" class="col-5 col-form-label text-right font-weight-bold">Type:</label>
+          <div class="col-7">
+            <select multiple id="type" name="types" class="form-control">
+              <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="level" class="col-5 col-form-label text-right font-weight-bold">Level:</label>
+          <div class="col-7">
+            <input type="text" name="level" id="level" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="species" class="col-5 col-form-label text-right font-weight-bold">Species:</label>
+          <div class="col-7">
+            <input type="text" name="species" id="species" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="trainer" class="col-5 col-form-label text-right font-weight-bold">Trainer:</label>
+          <div class="col-7">
+            <select id="trainer" name="trainers" class="form-control">
+              <option th:each="trainer : ${trainers}"
+                      th:value="${trainer.id}"
+                      th:text="${trainer.name}">
+              </option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Save</button>
+        <a href="pokemons" class="btn btn-outline-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</body>
+</html>

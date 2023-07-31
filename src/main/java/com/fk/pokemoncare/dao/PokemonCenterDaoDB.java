@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -38,13 +39,18 @@ public class PokemonCenterDaoDB implements PokemonCenterDao {
         }
     }
 
-    @Override
     public List<PokemonCenter> getAllCenters() {
-        List<PokemonCenter> centers = jdbc.query(SELECT_ALL_CENTERS, new PokemonCenterMapper());
-        for (PokemonCenter center : centers) {
-            center.setHealthrecords(getHealthRecordsByCenter(center));
+        try {
+            List<PokemonCenter> centers = jdbc.query(SELECT_ALL_CENTERS, new PokemonCenterMapper());
+            for (PokemonCenter center : centers) {
+                center.setHealthrecords(getHealthRecordsByCenter(center));
+            }
+            return centers;
+        } catch (DataAccessException ex) {
+            // Print the error message and stack trace to the console
+            ex.printStackTrace();
+            return Collections.emptyList(); // Return an empty list
         }
-        return centers;
     }
 
     @Override

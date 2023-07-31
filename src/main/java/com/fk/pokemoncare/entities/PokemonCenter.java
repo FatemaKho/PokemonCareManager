@@ -1,14 +1,16 @@
 package com.fk.pokemoncare.entities;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Objects;
 
 public class PokemonCenter {
     private int id;
+    @NotBlank(message = "Name not be empty")
     private String name;
-
+   @NotBlank(message = "Address not be empty")
     private String address;
-
+   @NotBlank(message = "Must not be empty")
     private List<HealthRecord> healthrecords;
 
     public PokemonCenter() {

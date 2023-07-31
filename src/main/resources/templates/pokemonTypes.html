@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/sketchy/bootstrap.min.css">
+
+    <title>Pokemon Types</title>
+</head>
+<body>
+<!-- Main Body of Page -->
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center">
+            <a href="/" class="h3">Pokemon Care Organization</a>
+        </div>
+    </div>
+
+    <div class="row m-4 border border-primary">
+        <div class="col text-center m-3">
+            <a href="pokemons" class="btn btn-outline-primary">Pokemon</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="trainers" class="btn btn-outline-primary">Trainers</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="pokemonTypes" class="btn btn-outline-primary">Pokemon Types</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="pokemonCenters" class="btn btn-outline-primary">Pokemon Center</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="healthRecords" class="btn btn-outline-primary">Health Records</a>
+        </div>
+    </div>
+
+
+    <div class="row m-4 border border-primary" >
+        <div class="col text-center m-3">
+            <div class="col-12 text-center m-3">
+                <span class="h3">Pokemon Types</span>
+            </div>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th style="width: 20%;" class="text-left">Type Name</th>
+                    <!--<th style="width: 20%;" class="text-left">Pokemons</th>-->
+                    <th style="width: 10%;" class="text-center">Details</th>
+                    <th style="width: 10%;" class="text-center">Edit</th>
+                    <th style="width: 10%;" class="text-center">Delete</th>
+                </tr>
+                </thead>
+                <tbody  class="h6 small">
+                <tbody class="h6 small">
+                <tr th:each="pokemonType : ${pokemonTypes}">
+                    <td class="text-left" th:text="${pokemonType.name}"></td>
+                  <!--  <td>
+                <span th:each="pokemon : ${pokemonType.pokemons}">
+                    <span th:text="${pokemon.name}"></span>
+                    <!Add a comma after each type except for the last one
+                    <span th:unless="${pokemonTypeStat.last}">, </span>
+                </span>
+                    </td>
+                    -->
+                    <td class="text-center"><a href="#" th:href="@{/detailPokemonType(id=${pokemonType.id})}">Details</a></td>
+                    <td class="text-center"><a href="#" th:href="@{/editPokemonType(id=${pokemonType.id})}">Edit</a></td>
+                    <td class="text-center"><a href="#" th:attr="href=${'#deleteModal'+pokemonType.id}" data-toggle="modal" >Delete</a></td>
+                    <div class="modal" th:attr="id=${'deleteModal'+ pokemonType.id}" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm Delete</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Do you want to delete this Pokemon Type?</h4>
+                                    <h6><span th:text="${pokemonType.name + ' * ' + pokemonType.pokemons}"></span></h6>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <form type="form" action="deletePokemonType" method="POST">
+                                        <input type="hidden" name="id" th:value="${pokemonType.id}"/>
+                                        <button type="submit" class="btn btn-outline-primary">OK</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+            <a href="addPokemonType" class="btn btn-outline-primary">Add Pokemon Type</a>
+        </div>
+    </div>
+
+    <!-- Display the validation error message if it exists -->
+    <div class="row m-4 border border-danger">
+        <div class="col text-center m-2">
+            <p th:if="${error}" class="text-danger" style="font-weight: bold;">
+                Error: <span th:text="${error}"></span>
+            </p>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+    <a href="/pokemonTypes" class="btn btn-outline-secondary">Reset PokemonTypes</a>
+    </form>
+</div>
+</div>
+
+</div>
+<!-- End main body -->
+
+<!-- Optional JavaScript -->
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</body>
+</html>

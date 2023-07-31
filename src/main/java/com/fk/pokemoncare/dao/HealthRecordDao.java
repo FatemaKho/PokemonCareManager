@@ -2,6 +2,8 @@ package com.fk.pokemoncare.dao;
 
 import com.fk.pokemoncare.entities.HealthRecord;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface HealthRecordDao {
@@ -17,5 +19,9 @@ public interface HealthRecordDao {
     void deleteHealthRecordById(int id);
 
     public List<HealthRecord> getAllHealthRecordsByPokemonCenter(int pokemonCenterId);
+
+    List<HealthRecord> getHealthRecordsByDate(LocalDateTime date);
+
+
 }
 

@@ -1,16 +1,29 @@
 package com.fk.pokemoncare.entities;
 
+
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 
+
+
 public class HealthRecord {
     private int id;
+
+    @NotBlank(message = "Description must not be empty")
     private String description;
+
+   @NotBlank (message = "Date must not be empty")
     private LocalDateTime date;
+  @NotBlank (message = "Pokemon must not be empty")
     private Pokemon pokemon;
+    @NotBlank (message = "Center must not be empty")
     private PokemonCenter pokemonCenter;
 
 

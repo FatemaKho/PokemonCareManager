@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/sketchy/bootstrap.min.css">
+
+  <title>Pokemon Health Records</title>
+</head>
+<body>
+<div class="container">
+  <div class="row m-4">
+    <div class="col text-center">
+      <a href="/" class="h3">Hero Education and Relationship Organization (HERO)</a>
+    </div>
+  </div>
+  !-- Main Body of Page -->
+
+    <div class="row m-4 border border-primary">
+      <div class="col text-center m-3">
+        <a href="pokemons" class="btn btn-outline-primary">Pokemon</a>
+      </div>
+      <div class="col text-center m-3">
+        <a href="trainers" class="btn btn-outline-primary">Trainers</a>
+      </div>
+      <div class="col text-center m-3">
+        <a href="pokemonTypes" class="btn btn-outline-primary">Pokemon Types</a>
+      </div>
+      <div class="col text-center m-3">
+        <a href="pokemonCenters" class="btn btn-outline-primary">Pokemon Center</a>
+      </div>
+      <div class="col text-center m-3">
+        <a href="healthRecords" class="btn btn-outline-primary">Health Records</a>
+      </div>
+    </div>
+
+  <div class="row m-4 border border-primary">
+    <div class="col-12 text-center m-3">
+      <span class="h3">Add HealthRecord</span>
+    </div>
+    <div  class="col text-center m-3">
+      <form action="addHealthRecord" method="POST" th:object="${healthRecord}">
+        <div class="form-group row">
+          <label for="pokemonCenters" class="col-5 col-form-label text-right font-weight-bold">Pokemon Center:</label>
+          <div class="col-7">
+            <select id="pokemonCenters" name="pokemonCenterID" class="form-control">
+              <option disabled selected value> -- Select Pokemon Center -- </option>
+              <option th:each="pokemonCenter : ${pokemonCenters}"
+                      th:value="${pokemonCenter.id}"
+                      th:text="${pokemonCenter.name}"
+                      th:selected="${healthRecord.pokemonCenter eq pokemonCenter}">
+              </option>
+            </select>
+            <div th:if="${#fields.hasErrors('pokemonCenter')}">
+              <p th:each="error : ${#fields.errors('pokemonCenter')}" class="alert alert-danger" th:text="${error}">
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pokemons" class="col-5 col-form-label text-right font-weight-bold">Pokemon:</label>
+          <div class="col-7">
+            <select id="pokemons" name="pokemonID" class="form-control">
+              <option disabled selected value> -- Select Pokemon -- </option>
+              <option th:each="pokemon : ${pokemons}"
+                      th:value="${pokemon.id}"
+                      th:text="${pokemon.name}"
+                      th:selected="${healthRecord.pokemon eq pokemon}">
+              </option>
+            </select>
+            <div th:if="${#fields.hasErrors('pokemon')}">
+              <p th:each="error : ${#fields.errors('pokemon')}" class="alert alert-danger" th:text="${error}">
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="description" class="col-5 col-form-label text-right font-weight-bold">Description:</label>
+          <div class="col-7">
+            <input type="text" name="description" id="description" class="form-control"  th:value="${healthRecord.description}"/>
+            <div th:if="${#fields.hasErrors('description')}">
+              <p th:each="error : ${#fields.errors('description')}" class="alert alert-danger" th:text="${error}">
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="date" class="col-5 col-form-label text-right font-weight-bold">Sighting Date & Time:</label>
+          <div class="col-7">
+            <input type="text" name="date" id="date" class="form-control" th:value="${#temporals.format(date, 'MM/dd/yyyy hh:mm a')}" placeholder="07/20/2023 10:10 AM"/>
+            <div th:if="${#fields.hasErrors('date')}">
+              <p th:each="error : ${#fields.errors('date')}" class="alert alert-danger" th:text="${error}">
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-outline-primary">OK</button>
+        <a href="healthRecords" class="btn btn-outline-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+
+</div>
+<!-- End main body -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
